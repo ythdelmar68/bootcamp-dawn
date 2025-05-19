@@ -4,9 +4,12 @@ A Shopify project using the Shopify CLI and theme tools.
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/) (recommended: latest LTS)
-- [npm](https://www.npmjs.com/)
 - [nvm](https://github.com/nvm-sh/nvm) (Node Version Manager) — recommended for easily managing and switching Node.js versions
+- [Node.js](https://nodejs.org/) (required: version 18.20.2 or 20.11.1)
+- [npm](https://www.npmjs.com/)
+- [Git](https://git-scm.com/) (required: version 2.18.0 or higher)
+- macOS, Windows, or Linux (Shopify CLI is supported on these operating systems)
+- You must have a Shopify store and a store staff account with permission to manage themes ([Shopify requirements](https://shopify.dev/docs/api/shopify-cli#requirements))
 
 ## Setup
 
