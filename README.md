@@ -24,7 +24,23 @@ A Shopify project using the Shopify CLI and theme tools.
 
 3. Theme files are located in the `theme/` directory. Make your theme customizations and development changes there.
 
+    ```bash
+    cd theme
+    ```
+
+4. Login to Store and pull the current theme from Shopify
+
+    ```bash
+    npm run shopify them pull -- --store=<store-name>.myshopify.com
+    ```
 ## Usage
+
+1. Before running any commands, ensure you are using the correct Node.js version by running:
+
+   ```bash
+   nvm use
+   ```
+   This uses the version specified in the `.nvmrc` file at the project root.
 
 - Run Shopify CLI commands via npm script:
 
