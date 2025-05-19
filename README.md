@@ -10,17 +10,19 @@ A Shopify project using the Shopify CLI and theme tools.
 
 ## Setup
 
-1. Install dependencies:
+1. Use the Node.js version specified in `.nvmrc` (ensures compatibility):
+
+   ```bash
+   nvm use
+   ```
+
+2. Install dependencies:
 
    ```bash
    npm install
    ```
 
-2. Ensure you have the Shopify CLI installed globally if needed:
-
-   ```bash
-   npm install -g @shopify/cli
-   ```
+3. Theme files are located in the `dawn-theme/` directory. Make your theme customizations and development changes there.
 
 ## Usage
 
