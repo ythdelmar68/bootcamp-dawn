@@ -42,13 +42,23 @@ A Shopify project using the Shopify CLI and theme tools.
    ```
    This uses the version specified in the `.nvmrc` file at the project root.
 
-- Run Shopify CLI commands via npm script:
+2. To preview your store locally, change to the `theme` directory and run the development server:
+
+   ```bash
+   cd theme
+   npm run shopify theme dev
+   ```
+   See the [Shopify CLI theme dev documentation](https://shopify.dev/docs/api/shopify-cli/theme/theme-dev) for more details.
+
+
+
+- For theme development, refer to [Shopify Theme Docs](https://shopify.dev/docs/themes).
+
+3. Run any Shopify CLI commands via npm script:
 
   ```bash
   npm run shopify <command>
   ```
-
-- For theme development, refer to [Shopify Theme Docs](https://shopify.dev/docs/themes).
 
 ## Scripts
 
