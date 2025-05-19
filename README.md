@@ -22,7 +22,7 @@ A Shopify project using the Shopify CLI and theme tools.
    npm install
    ```
 
-3. Theme files are located in the `dawn-theme/` directory. Make your theme customizations and development changes there.
+3. Theme files are located in the `theme/` directory. Make your theme customizations and development changes there.
 
 ## Usage
 
