@@ -1,0 +1,17 @@
+{
+  "name": "bootcamp-shopify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "shopify": "shopify"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@shopify/cli": "^3.80.0",
+    "@shopify/theme": "^3.58.2"
+  }
+}
