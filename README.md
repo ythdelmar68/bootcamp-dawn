@@ -1,11 +1,11 @@
-# bootcamp-shopify
+# bootcamp-dawn
 
 A Shopify project using the Shopify CLI and theme tools.
 
 ## Prerequisites
 
 - [nvm](https://github.com/nvm-sh/nvm) (Node Version Manager) — recommended for easily managing and switching Node.js versions
-- [Node.js](https://nodejs.org/) (required: version 18.20.2 or 20.11.1)
+- [Node.js](https://nodejs.org/) (required: version 18.20.2 or 20.11.1, the project use version specified in the `.nvmrc` file, i.e. v24.0.2)
 - [npm](https://www.npmjs.com/)
 - [Git](https://git-scm.com/) (required: version 2.18.0 or higher)
 - macOS, Windows, or Linux (Shopify CLI is supported on these operating systems)
@@ -13,19 +13,26 @@ A Shopify project using the Shopify CLI and theme tools.
 
 ## Setup
 
-1. Use the Node.js version specified in `.nvmrc` (ensures compatibility):
+1. Clone this repository:
+
+   ```bash
+   git clone https://github.com/ythdelmar68/bootcamp-dawn.git
+   cd bootcamp-dawn
+   ```
+
+2. Use the Node.js version specified in `.nvmrc` (ensures compatibility):
 
    ```bash
    nvm use
    ```
 
-2. Install dependencies:
+3. Install dependencies:
 
    ```bash
    npm install
    ```
 
-3. Login to Store and pull the current theme from Shopify
+4. Login to Store and pull the current theme from Shopify
 
     ```bash
     # Pull the current theme from Shopify
