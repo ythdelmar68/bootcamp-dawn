@@ -66,7 +66,7 @@ A Shopify project using the Shopify CLI and theme tools.
 4. Publish your theme
     ```bash
     # Publish to make your theme live on your store, you must make sure that you've pushed all of your local changes to Shopify using the theme push command.
-    shopify theme publish
+    npm run shopify theme publish
     # Select the theme that you want to publish from the list.
     ```
 
