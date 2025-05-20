@@ -119,16 +119,6 @@
       {%- endform -%}
     </product-form>
 
-    <!-- DEBUG: buy-buttons context -->
-    <div style="border: 3px solid blue; padding: 10px; margin: 10px 0;">
-      <p>About to render product-ownership-status with:</p>
-      <p>Raw customer data in buy-buttons: {{ customer | json }}</p>
-      <p>Customer email in buy-buttons: [{{ customer.email | default: 'no email' }}]</p>
-      <p>Customer ID in buy-buttons: [{{ customer.id | default: 'no id' }}]</p>
-      <p>Has product? {% if product %}yes{% else %}no{% endif %}</p>
-      <p>Has customer? {% if customer %}yes{% else %}no{% endif %}</p>
-    </div>
-
     {% render 'product-ownership-status', product: product, customer: customer %}
   {%- else -%}
     <div class="product-form">
