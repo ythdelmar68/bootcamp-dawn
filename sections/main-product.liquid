@@ -11,11 +11,85 @@
 >
   <!-- Customer debug in main-product -->
   <div style="border: 3px solid green; padding: 10px; margin: 10px 0;">
-    <p>MAIN PRODUCT DEBUG:</p>
-    <p>Raw customer in main-product: {{ customer | json }}</p>
-    <p>Customer email in main-product: [{{ customer.email | default: 'no email' }}]</p>
-    <p>Customer ID in main-product: [{{ customer.id | default: 'no id' }}]</p>
-    <p>Has customer? {% if customer %}TRUE{% else %}FALSE{% endif %}</p>
+    <p style="font-weight: bold; margin-bottom: 10px;">MAIN PRODUCT DEBUG:</p>
+    
+    <div style="margin: 10px 0;">
+        <p style="font-weight: bold;">Customer Information:</p>
+        <ul style="margin: 5px 0; padding-left: 20px; list-style-type: none;">
+            <li>✓ Logged in: {% if customer %}Yes{% else %}No{% endif %}</li>
+            {% if customer %}
+                <li>📧 Email: {{ customer.email }}</li>
+                <li>🆔 Account ID: {{ customer.id }}</li>
+                <li>👤 Name: {{ customer.name }}</li>
+                <li>📞 Phone: {{ customer.phone | default: 'Not provided' }}</li>
+                <li>🛍️ Total orders: {{ customer.orders_count }}</li>
+                <li>💰 Total spent: {{ customer.total_spent | money }}</li>
+            {% endif %}
+        </ul>
+    </div>
+
+    {% if customer %}
+        {% if customer.orders.size > 0 %}
+            <div style="margin-top: 10px; border-top: 1px solid #ddd; padding-top: 10px;">
+                <p style="font-weight: bold;">Recent Orders:</p>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 5px;">
+                    <tr style="background-color: #f5f5f5;">
+                        <th style="text-align: left; padding: 8px; border: 1px solid #ddd;">Order #</th>
+                        <th style="text-align: left; padding: 8px; border: 1px solid #ddd;">Date</th>
+                        <th style="text-align: left; padding: 8px; border: 1px solid #ddd;">Status</th>
+                        <th style="text-align: right; padding: 8px; border: 1px solid #ddd;">Total</th>
+                    </tr>
+                    {% for order in customer.orders limit: 3 %}
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;">{{ order.name }}</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">{{ order.created_at | date: "%Y-%m-%d" }}</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">
+                                <span style="
+                                    padding: 2px 6px;
+                                    border-radius: 3px;
+                                    {% case order.financial_status %}
+                                        {% when 'paid' %}
+                                            background-color: #e8f5e9;
+                                            color: #2e7d32;
+                                        {% when 'pending' %}
+                                            background-color: #fff3e0;
+                                            color: #ef6c00;
+                                        {% when 'refunded' %}
+                                            background-color: #f3e5f5;
+                                            color: #7b1fa2;
+                                        {% else %}
+                                            background-color: #f5f5f5;
+                                            color: #616161;
+                                    {% endcase %}
+                                ">
+                                    {{ order.financial_status | capitalize }}
+                                </span>
+                            </td>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">{{ order.total_price | money }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                {% if customer.orders.size > 3 %}
+                    <p style="margin-top: 5px; font-size: 0.9em; color: #666;">Showing 3 most recent orders of {{ customer.orders.size }} total</p>
+                {% endif %}
+            </div>
+        {% else %}
+            <div style="margin-top: 10px; border-top: 1px solid #ddd; padding-top: 10px;">
+                <p>📦 No orders found for this customer</p>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    <div style="margin-top: 10px; border-top: 1px solid #ddd; padding-top: 10px;">
+        <p style="font-weight: bold;">Current Product Info:</p>
+        <ul style="margin: 5px 0; padding-left: 20px; list-style-type: none;">
+            <li>📝 Title: {{ product.title }}</li>
+            <li>💲 Price: {{ product.price | money }}</li>
+            <li>🔢 ID: {{ product.id }}</li>
+            <li>📦 Type: {{ product.type }}</li>
+            <li>🏷️ Vendor: {{ product.vendor }}</li>
+        </ul>
+    </div>
   </div>
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
   {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
