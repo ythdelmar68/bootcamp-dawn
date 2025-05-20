@@ -34,7 +34,7 @@ A Shopify project using the Shopify CLI and theme tools.
 4. Login to Store and pull the current theme from Shopify
 
     ```bash
-    npm run shopify them pull -- --store=<store-name>.myshopify.com
+    npm run shopify theme pull -- --store=<store-name>.myshopify.com
     ```
 ## Usage
 
