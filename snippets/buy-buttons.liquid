@@ -24,6 +24,19 @@
       if block.settings.show_dynamic_checkout and gift_card_recipient_feature_active == false
         assign show_dynamic_checkout = true
       endif
+
+      assign disable_purchase = false
+      if customer and customer.orders.size > 0
+        assign latest_order = customer.orders[0]
+        for line_item in latest_order.line_items
+          if line_item.product.id == product.id and latest_order.financial_status
+            if latest_order.financial_status == 'authorized' or latest_order.financial_status == 'paid' or latest_order.financial_status == 'partially_paid'
+              assign disable_purchase = true
+              break
+            endif
+          endif
+        endfor
+      endif
     -%}
 
     <product-form
@@ -52,6 +65,7 @@
           {% if product.selected_or_first_available_variant.available == false
             or quantity_rule_soldout
             or product.selected_or_first_available_variant == null
+            or disable_purchase
           %}
             disabled
           {% endif %}
@@ -80,6 +94,7 @@
             {% if product.selected_or_first_available_variant.available == false
               or quantity_rule_soldout
               or product.selected_or_first_available_variant == null
+              or disable_purchase
             %}
               disabled
             {% endif %}
@@ -89,13 +104,15 @@
                 {{ 'products.product.unavailable' | t }}
               {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
                 {{ 'products.product.sold_out' | t }}
+              {%- elsif disable_purchase -%}
+                Already Purchased
               {%- else -%}
                 {{ 'products.product.add_to_cart' | t }}
               {%- endif -%}
             </span>
             {%- render 'loading-spinner' -%}
           </button>
-          {%- if show_dynamic_checkout -%}
+          {%- if show_dynamic_checkout and disable_purchase == false -%}
             {{ form | payment_button }}
           {%- endif -%}
         </div>
