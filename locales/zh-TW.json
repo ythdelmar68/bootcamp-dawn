@@ -60,7 +60,7 @@
       "authorized": "訂單已授權 - 待付款",
       "paid": "訂單已付款 - 已購買",
       "partially_paid": "訂單部分付款",
-      "already_purchased": "您已擁有此產品",
+      "already_purchased": "已購買",
       "pending_order": "您有此產品的待處理訂單"
     }
   },
