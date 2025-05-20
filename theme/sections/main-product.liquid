@@ -18,32 +18,37 @@
     <p>Has customer? {% if customer %}TRUE{% else %}FALSE{% endif %}</p>
 
     {% if customer %}
-      <div style="margin-top: 20px; border-top: 1px solid #ccc; padding-top: 10px;">
-        <p><strong>Products in Customer's Orders:</strong></p>
-        {% assign product_orders = hash %}
-        {% for order in customer.orders %}
-          {% for line_item in order.line_items %}
-            {% unless product_orders contains line_item.product_id %}
-              {% assign product_orders[line_item.product_id] = order %}
-            {% endunless %}
-          {% endfor %}
-        {% endfor %}
+        <div style="margin-top: 20px; border-top: 1px solid #ccc; padding-top: 10px;">
+            <p><strong>Products in Customer's Orders:</strong></p>
+            <p>Number of orders: {{ customer.orders.size }}</p>
+            {% assign product_orders = {} %}
+            
+            {% for order in customer.orders %}
+                <p>Processing order: #{{ order.name }} ({{ order.financial_status }})</p>
+                {% for line_item in order.line_items %}
+                    {% assign product_orders[line_item.product_id] = order %}
+                {% endfor %}
+            {% endfor %}
 
-        <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-          <tr style="border-bottom: 1px solid #eee;">
-            <th style="text-align: left; padding: 5px;">Product ID</th>
-            <th style="text-align: left; padding: 5px;">Latest Order</th>
-            <th style="text-align: left; padding: 5px;">Financial Status</th>
-          </tr>
-          {% for product_order in product_orders %}
-            <tr style="border-bottom: 1px solid #eee;">
-              <td style="padding: 5px;">{{ product_order[0] }}</td>
-              <td style="padding: 5px;">#{{ product_order[1].name }}</td>
-              <td style="padding: 5px;">{{ product_order[1].financial_status | capitalize }}</td>
-            </tr>
-          {% endfor %}
-        </table>
-      </div>
+            {% if product_orders.size > 0 %}
+                <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <th style="text-align: left; padding: 5px;">Product ID</th>
+                        <th style="text-align: left; padding: 5px;">Latest Order</th>
+                        <th style="text-align: left; padding: 5px;">Financial Status</th>
+                    </tr>
+                    {% for product_order in product_orders %}
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 5px;">{{ product_order[0] }}</td>
+                            <td style="padding: 5px;">#{{ product_order[1].name }}</td>
+                            <td style="padding: 5px;">{{ product_order[1].financial_status | capitalize }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p>No orders found for this customer.</p>
+            {% endif %}
+        </div>
     {% endif %}
   </div>
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
