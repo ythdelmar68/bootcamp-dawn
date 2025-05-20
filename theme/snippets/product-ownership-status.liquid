@@ -1,0 +1,47 @@
+<div class="product-ownership-status">
+  <div style="border: 3px solid red; padding: 10px; margin: 10px 0;">
+    <p>DETAILED CUSTOMER DEBUG</p>
+    <p>Raw customer: {{ customer | json }}</p>
+    <p>Customer email: [{{ customer.email | default: 'no email' }}]</p>
+    <p>Customer ID: [{{ customer.id | default: 'no id' }}]</p>
+    <p>Orders Count: [{{ customer.orders.size | default: 0 }}]</p>
+    <p>Customer check: [{% if customer %}TRUE{% else %}FALSE{% endif %}]</p>
+    <p>Customer nil check: [{% if customer == nil %}TRUE{% else %}FALSE{% endif %}]</p>
+    <p>Product ID: [{{ product.id }}]</p>
+  </div>
+
+  {%- if customer != nil -%}
+    {%- assign has_orders = false -%}
+    {%- for order in customer.orders -%}
+      {%- for line_item in order.line_items -%}
+        {%- if line_item.product_id == product.id -%}
+          {%- assign has_orders = true -%}
+          <div class="product-ownership-status--{{ order.financial_status }}">
+            <span class="product-ownership-status__icon">
+              {% case order.financial_status %}
+                {% when 'paid' %}
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+                {% else %}
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"/></svg>
+              {% endcase %}
+            </span>
+            <p>{{ order.financial_status | capitalize }} - Order {{ order.name }}</p>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endfor -%}
+    
+    {%- unless has_orders -%}
+      <div class="product-ownership-status__message">
+        You haven't purchased this item yet.
+      </div>
+    {%- endunless -%}
+  {%- else -%}
+    <div class="product-ownership-status__message">
+      <!-- Not logged in debug info -->
+      <!-- customer variable type: [{{ customer.class }}] -->
+      <!-- customer check: [{% if customer %}true{% else %}false{% endif %}] -->
+      <a href="{{ routes.account_login_url }}" class="link">Sign in</a> to view your purchase history for this item.
+    </div>
+  {%- endif -%}
+</div>

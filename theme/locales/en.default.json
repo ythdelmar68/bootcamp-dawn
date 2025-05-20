@@ -9,6 +9,13 @@
  */
 {
   "general": {
+    "product_ownership": {
+      "authorized": "Order authorized - Payment pending",
+      "paid": "Order paid - Already purchased",
+      "partially_paid": "Order partially paid",
+      "already_purchased": "You already own this product",
+      "pending_order": "You have a pending order for this product"
+    },
     "password_page": {
       "login_form_heading": "Enter store using password:",
       "login_password_button": "Enter using password",
