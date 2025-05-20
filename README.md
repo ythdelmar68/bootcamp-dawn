@@ -56,11 +56,12 @@ A Shopify project using the Shopify CLI and theme tools.
    # After the theme is created, you can update your theme code by running the `push` command without any flags
    npm run shopify theme push
 
-4. Run any other Shopify CLI commands via npm script:
-
-   ```bash
-   npm run shopify <command>
-   ```
+4. Publish your theme
+    ```bash
+    # Publish to make your theme live on your store, you must make sure that you've pushed all of your local changes to Shopify using the theme push command.
+    shopify theme publish
+    # Select the theme that you want to publish from the list.
+    ```
 
 ## Scripts
 
