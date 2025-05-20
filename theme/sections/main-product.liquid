@@ -12,40 +12,42 @@
   <!-- Customer debug in main-product -->
   <div style="border: 3px solid green; padding: 10px; margin: 10px 0;">
     <p>MAIN PRODUCT DEBUG:</p>
-    {% assign customer_json = customer | json | escape %}
-    <p>Raw customer data: {{ customer_json }}</p>
     <p>Customer email in main-product: [{{ customer.email | default: 'no email' }}]</p>
     <p>Customer ID in main-product: [{{ customer.id | default: 'no id' }}]</p>
     <p>Has customer? {% if customer %}TRUE{% else %}FALSE{% endif %}</p>
 
     {% if customer %}
         <div style="margin-top: 20px; border-top: 1px solid #ccc; padding-top: 10px;">
-            <p><strong>Order Information:</strong></p>
-            {% assign order_count = customer.orders_count | default: 0 %}
-            <p>Total number of orders: {{ order_count }}</p>
-            
-            {% if order_count > 0 %}
-                {% for order in customer.orders limit: 5 %}
-                    <div style="margin: 10px 0; padding: 10px; border: 1px solid #eee;">
-                        <p>Order #{{ order.name }} ({{ order.financial_status | capitalize }})</p>
-                        <ul style="margin: 5px 0; padding-left: 20px;">
-                            {% for line_item in order.line_items %}
-                                <li>
-                                    {{ line_item.title }} 
-                                    ({{ line_item.quantity }}x @ {{ line_item.final_price | money }})
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                {% endfor %}
-
-                {% if order_count > 5 %}
-                    <p><em>Showing 5 most recent orders out of {{ order_count }} total orders.</em></p>
-                {% endif %}
-            {% else %}
-                <p>No orders found for this customer.</p>
-            {% endif %}
+            <p><strong>Customer Details:</strong></p>
+            <ul style="margin: 5px 0; padding-left: 20px;">
+                <li>First Name: {{ customer.first_name | default: 'N/A' }}</li>
+                <li>Last Name: {{ customer.last_name | default: 'N/A' }}</li>
+                <li>Phone: {{ customer.phone | default: 'N/A' }}</li>
+                <li>Orders Count: {{ customer.orders_count | default: 0 }}</li>
+                <li>Total Spent: {{ customer.total_spent | money_with_currency | default: '$0.00' }}</li>
+                <li>Account Created: {{ customer.created_at | date: '%B %d, %Y' }}</li>
+            </ul>
         </div>
+
+        {% if customer.orders_count > 0 %}
+            <div style="margin-top: 20px; border-top: 1px solid #ccc; padding-top: 10px;">
+                <p><strong>Recent Orders:</strong></p>
+                {% paginate customer.orders by 5 %}
+                    {% for order in customer.orders %}
+                        <div style="margin: 10px 0; padding: 10px; border: 1px solid #eee;">
+                            <p>Order #{{ order.name }}</p>
+                            <p>Status: {{ order.financial_status | capitalize }}</p>
+                            <p>Date: {{ order.created_at | date: '%B %d, %Y' }}</p>
+                            <p>Total: {{ order.total_price | money_with_currency }}</p>
+                        </div>
+                    {% endfor %}
+                {% endpaginate %}
+            </div>
+        {% else %}
+            <div style="margin-top: 20px; border-top: 1px solid #ccc; padding-top: 10px;">
+                <p>No orders found for this customer.</p>
+            </div>
+        {% endif %}
     {% endif %}
   </div>
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
