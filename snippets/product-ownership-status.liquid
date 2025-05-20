@@ -1,5 +1,20 @@
 <div class="product-ownership-status">
-  {%- if customer != nil -%}
+  {%- liquid
+    assign is_already_purchased = false
+    if customer and customer.orders.size > 0
+      assign latest_order = customer.orders[0]
+      for line_item in latest_order.line_items
+        if line_item.product.id == product.id and latest_order.financial_status
+          if latest_order.financial_status == 'authorized' or latest_order.financial_status == 'paid' or latest_order.financial_status == 'partially_paid'
+            assign is_already_purchased = true
+            break
+          endif
+        endif
+      endfor
+    endif
+  -%}
+
+  {%- if customer != nil and is_already_purchased -%}
     <div class="product-ownership-status__message">
       {{ 'general.product_ownership.already_purchased' | t }}
     </div>

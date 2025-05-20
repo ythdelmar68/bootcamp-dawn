@@ -57,20 +57,20 @@
         class: 'form',
         novalidate: 'novalidate',
         data-type: 'add-to-cart-form'
-      -%}
-        <input
-          type="hidden"
-          name="id"
-          value="{{ product.selected_or_first_available_variant.id }}"
-          {% if product.selected_or_first_available_variant.available == false
-            or quantity_rule_soldout
-            or product.selected_or_first_available_variant == null
-            or disable_purchase
-          %}
-            disabled
-          {% endif %}
-          class="product-variant-id"
-        >
+      -%}            <input
+              type="hidden"
+              name="id"
+              value="{{ product.selected_or_first_available_variant.id }}"
+              {% if product.selected_or_first_available_variant.available == false
+                or quantity_rule_soldout
+                or product.selected_or_first_available_variant == null
+                or disable_purchase == true
+              %}
+                disabled
+              {% endif %}
+              class="product-variant-id"
+              data-disable-purchase="{{ disable_purchase }}"
+            >
 
         {%- if gift_card_recipient_feature_active -%}
           {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
@@ -90,12 +90,13 @@
             id="ProductSubmitButton-{{ section_id }}"
             type="submit"
             name="add"
-            class="product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
+            class="product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %} {% if disable_purchase %}button--disabled{% endif %}"
             {% if product.selected_or_first_available_variant.available == false
               or quantity_rule_soldout
               or product.selected_or_first_available_variant == null
+              or disable_purchase == true
             %}
-              disabled
+              disabled="disabled"
             {% endif %}
           >
             <span>
