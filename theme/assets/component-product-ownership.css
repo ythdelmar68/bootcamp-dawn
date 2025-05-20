@@ -1,0 +1,55 @@
+.product-ownership-status {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  border: 1px solid #e5e5e5;
+  background: #f8f9fa;
+}
+
+.product-ownership-status__message {
+  text-align: center;
+  color: #6c757d;
+}
+
+.product-ownership-status__message .link {
+  color: #0d6efd;
+  text-decoration: none;
+}
+
+.product-ownership-status__message .link:hover {
+  text-decoration: underline;
+}
+
+.product-ownership-status--authorized {
+  background-color: #fff3c4;
+  border: 1px solid #ffd700;
+  color: #856404;
+}
+
+.product-ownership-status--paid {
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+}
+
+.product-ownership-status--partially-paid {
+  background-color: #cce5ff;
+  border: 1px solid #b8daff;
+  color: #004085;
+}
+
+.product-ownership-status__icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  width: 1.2em;
+  height: 1.2em;
+}
+
+.button[disabled] {
+  opacity: 0.65;
+  cursor: not-allowed;
+  background-color: #e9ecef;
+  border-color: #dee2e6;
+}
