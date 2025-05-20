@@ -25,15 +25,10 @@ A Shopify project using the Shopify CLI and theme tools.
    npm install
    ```
 
-3. Theme files are located in the `theme/` directory. Make your theme customizations and development changes there.
+3. Login to Store and pull the current theme from Shopify
 
     ```bash
-    cd theme
-    ```
-
-4. Login to Store and pull the current theme from Shopify
-
-    ```bash
+    # Pull the current theme from Shopify
     npm run shopify theme pull -- --store=<store-name>.myshopify.com
     ```
 ## Usage
@@ -45,23 +40,27 @@ A Shopify project using the Shopify CLI and theme tools.
    ```
    This uses the version specified in the `.nvmrc` file at the project root.
 
-2. To preview your store locally, change to the `theme` directory and run the development server:
+2. To preview your store locally, run the development server:
 
    ```bash
-   cd theme
    npm run shopify theme dev
    ```
    See the [Shopify CLI theme dev documentation](https://shopify.dev/docs/api/shopify-cli/theme/theme-dev) for more details.
 
+3. To push your theme changes to your store:
 
+   ```bash
+   # Push to your development theme, you will need to give the theme a name
+   npm run shopify theme push -- --unpublished
 
-- For theme development, refer to [Shopify Theme Docs](https://shopify.dev/docs/themes).
+   # After the theme is created, you can update your theme code by running the `push` command without any flags
+   npm run shopify theme push
 
-3. Run any Shopify CLI commands via npm script:
+4. Run any other Shopify CLI commands via npm script:
 
-  ```bash
-  npm run shopify <command>
-  ```
+   ```bash
+   npm run shopify <command>
+   ```
 
 ## Scripts
 
