@@ -36,7 +36,8 @@
                     <tr style="background-color: #f5f5f5;">
                         <th style="text-align: left; padding: 8px; border: 1px solid #ddd;">Order #</th>
                         <th style="text-align: left; padding: 8px; border: 1px solid #ddd;">Date</th>
-                        <th style="text-align: left; padding: 8px; border: 1px solid #ddd;">Status</th>
+                        <th style="text-align: left; padding: 8px; border: 1px solid #ddd;">Payment</th>
+                        <th style="text-align: left; padding: 8px; border: 1px solid #ddd;">Fulfillment</th>
                         <th style="text-align: right; padding: 8px; border: 1px solid #ddd;">Total</th>
                     </tr>
                     {% for order in customer.orders limit: 3 %}
@@ -63,6 +64,28 @@
                                     {% endcase %}
                                 ">
                                     {{ order.financial_status | capitalize }}
+                                </span>
+                            </td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">
+                                <span style="
+                                    padding: 2px 6px;
+                                    border-radius: 3px;
+                                    {% case order.fulfillment_status %}
+                                        {% when 'fulfilled' %}
+                                            background-color: #e3f2fd;
+                                            color: #1565c0;
+                                        {% when 'partial' %}
+                                            background-color: #fff3e0;
+                                            color: #ef6c00;
+                                        {% when 'unfulfilled' %}
+                                            background-color: #fce4ec;
+                                            color: #c2185b;
+                                        {% else %}
+                                            background-color: #f5f5f5;
+                                            color: #616161;
+                                    {% endcase %}
+                                ">
+                                    {{ order.fulfillment_status | default: 'unfulfilled' | capitalize }}
                                 </span>
                             </td>
                             <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">{{ order.total_price | money }}</td>
