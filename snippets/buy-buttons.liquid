@@ -94,7 +94,6 @@
             {% if product.selected_or_first_available_variant.available == false
               or quantity_rule_soldout
               or product.selected_or_first_available_variant == null
-              or disable_purchase
             %}
               disabled
             {% endif %}
@@ -112,14 +111,12 @@
             </span>
             {%- render 'loading-spinner' -%}
           </button>
-          {%- if show_dynamic_checkout and disable_purchase == false -%}
+          {%- if show_dynamic_checkout and disable_purchase != true and product.selected_or_first_available_variant.available -%}
             {{ form | payment_button }}
           {%- endif -%}
         </div>
       {%- endform -%}
     </product-form>
-
-    {% render 'product-ownership-status', product: product, customer: customer %}
   {%- else -%}
     <div class="product-form">
       <div class="product-form__buttons form">
