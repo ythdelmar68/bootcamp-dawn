@@ -33,21 +33,7 @@
             <div style="margin-top: 10px; border-top: 1px solid #ddd; padding-top: 10px;">
                 <p style="font-weight: bold;">Order History by Product:</p>
                 
-                {% assign product_orders = "" | split: "" %}
-                {% assign unique_products = "" | split: "" %}
                 {% assign seen_products = "" | split: "" %}
-                
-                {% for order in customer.orders %}
-                    {% for line_item in order.line_items %}
-                        {% assign product_key = line_item.title %}
-                        {% unless seen_products contains product_key %}
-                            {% assign seen_products = seen_products | push: product_key %}
-                            {% assign product_info = "" | split: "" %}
-                            {% assign product_info = product_info | push: line_item.title | push: order.name | push: order.created_at | push: order.financial_status | push: order.fulfillment_status | push: line_item.final_price %}
-                            {% assign unique_products = unique_products | push: product_info %}
-                        {% endunless %}
-                    {% endfor %}
-                {% endfor %}
                 
                 <table style="width: 100%; border-collapse: collapse; margin-top: 5px;">
                     <tr style="background-color: #f5f5f5;">
@@ -58,60 +44,65 @@
                         <th style="text-align: left; padding: 8px; border: 1px solid #ddd;">Fulfillment</th>
                         <th style="text-align: right; padding: 8px; border: 1px solid #ddd;">Price</th>
                     </tr>
-                    {% for product_info in unique_products %}
-                        <tr>
-                            <td style="padding: 8px; border: 1px solid #ddd;">{{ product_info[0] }}</td>
-                            <td style="padding: 8px; border: 1px solid #ddd;">#{{ product_info[1] }}</td>
-                            <td style="padding: 8px; border: 1px solid #ddd;">{{ product_info[2] | date: "%Y-%m-%d" }}</td>
-                            <td style="padding: 8px; border: 1px solid #ddd;">
-                                <span style="
-                                    padding: 2px 6px;
-                                    border-radius: 3px;
-                                    {% case product_info[3] %}
-                                        {% when 'paid' %}
-                                            background-color: #e8f5e9;
-                                            color: #2e7d32;
-                                        {% when 'pending' %}
-                                            background-color: #fff3e0;
-                                            color: #ef6c00;
-                                        {% when 'refunded' %}
-                                            background-color: #f3e5f5;
-                                            color: #7b1fa2;
-                                        {% else %}
-                                            background-color: #f5f5f5;
-                                            color: #616161;
-                                    {% endcase %}
-                                ">
-                                    {{ product_info[3] | capitalize }}
-                                </span>
-                            </td>
-                            <td style="padding: 8px; border: 1px solid #ddd;">
-                                <span style="
-                                    padding: 2px 6px;
-                                    border-radius: 3px;
-                                    {% case product_info[4] %}
-                                        {% when 'fulfilled' %}
-                                            background-color: #e3f2fd;
-                                            color: #1565c0;
-                                        {% when 'partial' %}
-                                            background-color: #fff3e0;
-                                            color: #ef6c00;
-                                        {% when 'unfulfilled' %}
-                                            background-color: #fce4ec;
-                                            color: #c2185b;
-                                        {% else %}
-                                            background-color: #f5f5f5;
-                                            color: #616161;
-                                    {% endcase %}
-                                ">
-                                    {{ product_info[4] | default: 'unfulfilled' | capitalize }}
-                                </span>
-                            </td>
-                            <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">{{ product_info[5] | money }}</td>
-                        </tr>
+                    {% for order in customer.orders %}
+                        {% for line_item in order.line_items %}
+                            {% unless seen_products contains line_item.title %}
+                                {% assign seen_products = seen_products | push: line_item.title %}
+                                <tr>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">{{ line_item.title }}</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">#{{ order.name }}</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">{{ order.created_at | date: "%Y-%m-%d" }}</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">
+                                        <span style="
+                                            padding: 2px 6px;
+                                            border-radius: 3px;
+                                            {% case order.financial_status %}
+                                                {% when 'paid' %}
+                                                    background-color: #e8f5e9;
+                                                    color: #2e7d32;
+                                                {% when 'pending' %}
+                                                    background-color: #fff3e0;
+                                                    color: #ef6c00;
+                                                {% when 'refunded' %}
+                                                    background-color: #f3e5f5;
+                                                    color: #7b1fa2;
+                                                {% else %}
+                                                    background-color: #f5f5f5;
+                                                    color: #616161;
+                                            {% endcase %}
+                                        ">
+                                            {{ order.financial_status | capitalize }}
+                                        </span>
+                                    </td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">
+                                        <span style="
+                                            padding: 2px 6px;
+                                            border-radius: 3px;
+                                            {% case order.fulfillment_status %}
+                                                {% when 'fulfilled' %}
+                                                    background-color: #e3f2fd;
+                                                    color: #1565c0;
+                                                {% when 'partial' %}
+                                                    background-color: #fff3e0;
+                                                    color: #ef6c00;
+                                                {% when 'unfulfilled' %}
+                                                    background-color: #fce4ec;
+                                                    color: #c2185b;
+                                                {% else %}
+                                                    background-color: #f5f5f5;
+                                                    color: #616161;
+                                            {% endcase %}
+                                        ">
+                                            {{ order.fulfillment_status | default: 'unfulfilled' | capitalize }}
+                                        </span>
+                                    </td>
+                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">{{ line_item.final_price | money }}</td>
+                                </tr>
+                            {% endunless %}
+                        {% endfor %}
                     {% endfor %}
                 </table>
-                <p style="margin-top: 5px; font-size: 0.9em; color: #666;">Showing latest order for each product ({{ unique_products.size }} products)</p>
+                <p style="margin-top: 5px; font-size: 0.9em; color: #666;">Showing latest order for each product ({{ seen_products.size }} products)</p>
             </div>
         {% else %}
             <div style="margin-top: 10px; border-top: 1px solid #ddd; padding-top: 10px;">
