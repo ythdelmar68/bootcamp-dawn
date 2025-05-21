@@ -23,6 +23,7 @@ A Shopify project using the Shopify CLI and theme tools.
 2. Use the Node.js version specified in `.nvmrc` (ensures compatibility):
 
    ```bash
+   nvm install node v24.0.2
    nvm use
    ```
 
